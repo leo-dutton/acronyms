@@ -2,15 +2,26 @@ from ast import parse
 from email import parser
 import pandas as pd
 import argparse
+import os
 
-def load_acronym_dictionary():
+_MAIN_DICT = 'acronym_dictionary.xlsx'
+_USER_DICT = 'user_dictionary.csv'
+
+def load_acronym_dictionaries():
     """Loads the dictionary of acronyms from the excel file. Concats all the 
     sheets into a single df.
 
     Returns:
         DataFrame: lookup table of acronyms
     """
-    acronyms = pd.read_excel('acronym_dictionary.xlsx', sheet_name=None, header=None)
+    acronyms = pd.read_excel(_MAIN_DICT, sheet_name=None, header=None)
+    
+    dir = os.listdir()
+    if _USER_DICT in dir:
+        user = pd.read_csv(_USER_DICT, header=None)
+        acronyms['user'] = user
+    
+    
     acronyms = pd.concat(acronyms)
     acronyms.rename(columns={0:'acronym', 1:'meaning'}, inplace=True)
     acronyms['acronym'] = acronyms['acronym'].str.strip()
@@ -24,7 +35,7 @@ def lookup_acronym(search: str):
         search (str): The acronym to be searched for 
     """
     search = search.upper()
-    acronyms = load_acronym_dictionary()
+    acronyms = load_acronym_dictionaries()
 
     if search in list(acronyms['acronym'].str.upper()):
         result = acronyms[acronyms['acronym'].str.upper()==search]
