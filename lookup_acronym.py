@@ -1,9 +1,10 @@
-from ast import parse
-from email import parser
+#!/usr/bin/env python
+
 import pandas as pd
 import argparse
 import os
 
+_DIR = '/Users/leodutton/Work/AstraZeneca/acronyms'
 _MAIN_DICT = 'acronym_dictionary.xlsx'
 _USER_DICT = 'user_dictionary.csv'
 
@@ -14,11 +15,14 @@ def load_acronym_dictionaries():
     Returns:
         DataFrame: lookup table of acronyms
     """
-    acronyms = pd.read_excel(_MAIN_DICT, sheet_name=None, header=None)
+    acr_file_path = os.path.join(_DIR, _MAIN_DICT)
+    acronyms = pd.read_excel(acr_file_path, sheet_name=None, header=None)
     
-    dir = os.listdir()
+    dir = os.listdir(_DIR)
+
     if _USER_DICT in dir:
-        user = pd.read_csv(_USER_DICT, header=None)
+        user_file_path = os.path.join(_DIR, _USER_DICT)
+        user = pd.read_csv(user_file_path, header=None)
         acronyms['user'] = user
     
     
@@ -40,7 +44,8 @@ def lookup_acronym(search: str):
     if search in list(acronyms['acronym'].str.upper()):
         result = acronyms[acronyms['acronym'].str.upper()==search]
         result = result.dropna(axis=1, how='all')
-        print(result['meaning'].values)
+        result = result['meaning'].values
+        print(*result, sep='\n')
     else:       
         print('Acronym not in dictionary')
 
