@@ -1,5 +1,3 @@
-import imp
-from statistics import mean
 import pandas as pd
 import argparse
 import os

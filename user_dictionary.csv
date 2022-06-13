@@ -1,1 +1,18 @@
-HELL,hello world
+FG,Finished Goods
+SFG,Semi-finished Goods
+MLT,Manufacturing Lead Time
+ETL,"Extract, Transform, Load"
+MES,Manufacturing Execution System
+ODH,Operations Data Hub
+DRM,Data Relationship Manager
+QIMS,Quality Information Management System
+CT,Control Tower
+jdbc,Java Database Connectivity
+FDT,Formulation Digital Twin
+OEE,Overall Equipment Efficiency
+DPM,Advanced Digital Performance Management
+TEST,*test add*
+WC,Whole Clean
+dos,Days of supply
+psa,Production Scheduling Adherance
+fp,Finished product

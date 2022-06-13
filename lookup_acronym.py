@@ -56,17 +56,31 @@ def get_args() -> str:
         str: acronym to search
     """
     parser = argparse.ArgumentParser(description="A program to lookup acronyms in a dictionary")
-    parser.add_argument('-a', '--acronym', help="Searches the dictionary for the acronym supplied")
+    parser.add_argument('-s', '--search', help="Searches the dictionary for the acronym supplied")
+    parser.add_argument('-a', '--add', help="Searches the dictionary for the acronym supplied")
     args = parser.parse_args()
-    search = args.acronym
+    search = args.search
+    add = args.add
 
-    return search
+    return search, add
 
+def add_acronym(add: str):
+    acronym = add
+    y = input(f'Would you like to add {acronym} to the user dictionary? (Y/n)')
+    if y.lower() == 'y':
+        meaning = input('Meaning: ')
+        df = pd.DataFrame([[acronym, meaning]])
+        file_path = os.path.join(_DIR, _USER_DICT)
+        df.to_csv(file_path, mode='a', header=False, index=False)
 
 if __name__=='__main__':
 
-    search = get_args()
-    if not search:
-        search = input('Enter the acronym to search for: ')
-
-    lookup_acronym(search)
+    search, add = get_args()
+    # if not search:
+    #     search = input('Enter the acronym to search for: ')
+    if search:
+        lookup_acronym(search)
+    elif add:
+        add_acronym(add)
+    else:
+        print('Please input an acronym to search for, or a new acronym to add')
